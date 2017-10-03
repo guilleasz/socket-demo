@@ -24,6 +24,9 @@ io.on('connection', function(socket) {
   socket.on('postName', function(name) {
     users[socket.id] = name;
   });
+  socket.on('disconnect', function() {
+    io.emit('userDisconnected', users[socket.id])
+  });
 });
 
 

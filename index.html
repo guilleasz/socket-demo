@@ -34,6 +34,9 @@
   socket.on('sendMessage', function(user, message){
     document.querySelector('#feed').insertAdjacentHTML('beforeEnd', `<p>${user}: ${message}</p>`);
   })
+  socket.on('userDisconnected', function(user) {
+     document.querySelector('#feed').insertAdjacentHTML('beforeEnd', `<p>${user} se desconecto...</p>`);
+  })
 
 </script>
 </body>
