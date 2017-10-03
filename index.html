@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+  <input id="name" placeholder="Nombre" />
+  <button id="addName">Agregar nombre</button>
+  <input id="message" placeholder="Escribi tu mensaje" type="text">
+  <div id='feed'></div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io();
+  var hasName = false;
+  document.querySelector('#addName').addEventListener('click', function() {
+    hasName = true;
+    var name = document.querySelector('#name').value;
+    socket.emit('postName', name);
+  });
+  document.querySelector('#message').addEventListener('keyup', function(e) {
+    if (!hasName) {
+      alert('Necesitas un nombre');
+      e.target.value = '';
+      return;
+    }
+          console.log(e)
+
+    if (e.keyCode === 13) {
+      socket.emit('postMessage', e.target.value);
+      e.target.value = '';
+    }
+  });
+  socket.on('sendMessage', function(user, message){
+    document.querySelector('#feed').insertAdjacentHTML('beforeEnd', `<p>${user}: ${message}</p>`);
+  })
+
+</script>
+</body>
+</html>
